@@ -1,0 +1,24 @@
+{
+  "intents": [
+      {
+          "tag": "salutation",
+          "patterns": ["Bonjour", "Salut", "Coucou"],
+          "responses": ["Bonjour!", "Salut, comment puis-je vous aider?", "Bonjour, comment puis-je vous aider aujourd'hui?"]
+      },
+      {
+          "tag": "adieu",
+          "patterns": ["Au revoir", "À plus tard", "Bye"],
+          "responses": ["Au revoir!", "À bientôt!", "Prenez soin de vous!"]
+      },
+      {
+          "tag": "merci",
+          "patterns": ["Merci", "Merci beaucoup", "C'est gentil"],
+          "responses": ["Je suis heureux d'avoir pu aider!", "Vous êtes les bienvenus!", "C'est un plaisir!"]
+      },
+      {
+          "tag": "aide",
+          "patterns": ["Je suis perdu", "Pouvez-vous m'aider?", "J'ai besoin d'aide"],
+          "responses": ["Bien sûr, je suis là pour vous aider. Que voulez-vous savoir?", "Je suis là pour vous aider. Que puis-je faire pour vous?", "Bien sûr! Comment puis-je vous aider aujourd'hui?"]
+      }
+  ]
+}
