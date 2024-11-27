@@ -45,9 +45,7 @@ classes = []
 doc_X = []
 doc_y = []
 
-# parcourir avec une boucle For toutes les intentions
-# tokéniser chaque pattern et ajouter les tokens à la liste words, les patterns et
-# le tag associé à l'intention sont ajoutés aux listes correspondantes
+
 for intent in data["intents"]:
     for pattern in intent["patterns"]:
         tokens = nltk.word_tokenize(pattern)
@@ -55,16 +53,12 @@ for intent in data["intents"]:
         doc_X.append(pattern)
         doc_y.append(intent["tag"])
     
-    # ajouter le tag aux classes s'il n'est pas déjà là 
     if intent["tag"] not in classes:
         classes.append(intent["tag"])
 
-# lemmatiser tous les mots du vocabulaire et les convertir en minuscule
-# si les mots n'apparaissent pas dans la ponctuation
+
 words = [lemmatizer.lemmatize(word.lower()) for word in words if word not in string.punctuation]
 
-# trier le vocabulaire et les classes par ordre alphabétique et prendre le
-# set pour s'assurer qu'il n'y a pas de doublons
 words = sorted(set(words))
 classes = sorted(set(classes))
 
@@ -74,38 +68,29 @@ print(doc_X)
 print(doc_y)
 
 
-# liste pour les données d'entraînement
 training = []
 out_empty = [0] * len(classes)
 
-# création du modèle d'ensemble de mots
 for idx, doc in enumerate(doc_X):
     bow = []
     text = lemmatizer.lemmatize(doc.lower())
     for word in words:
         bow.append(1) if word in text else bow.append(0)
-
-    # marque l'index de la classe à laquelle le pattern atguel est associé à
     output_row = list(out_empty)
     output_row[classes.index(doc_y[idx])] = 1
 
-    # ajoute le one hot encoded BoW et les classes associées à la liste training
     training.append([bow, output_row])
 
-# mélanger les données et les convertir en array
 random.shuffle(training)
 training = np.array(training, dtype=object)
 
-# séparer les features et les labels target
 train_X = np.array(list(training[:, 0]))
 train_y = np.array(list(training[:, 1]))
 
-# définition de quelques paramètres
 input_shape = (len(train_X[0]),)
 output_shape = len(train_y[0])
 epochs = 200
 
-# modèle Deep Learning
 model = Sequential()
 model.add(Dense(128, input_shape=input_shape, activation="relu"))
 model.add(Dropout(0.5))
@@ -156,7 +141,7 @@ def get_response(intents_list, intents_json):
       break
   return result
 
-# lancement du chatbot
+
 while True:
     message = input("")
     intents = pred_class(message, words, classes)
